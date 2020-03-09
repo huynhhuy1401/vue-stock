@@ -23,4 +23,10 @@ export default {
 .wrapper {
   display: flex;
 }
+
+@media screen and (max-width: 780px) {
+  .wrapper {
+    flex-direction: column;
+  }
+}
 </style>

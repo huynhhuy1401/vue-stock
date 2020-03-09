@@ -36,7 +36,6 @@ export default {
 <style scoped>
 .panel {
   flex: 0 24%;
-  max-width: 24%;
   padding: 1rem;
   margin: 1%;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
