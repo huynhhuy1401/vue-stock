@@ -59,7 +59,7 @@ export default {
 }
 
 .btn {
-  background-color: #a6b1e1;
+  background-color: #424874;
   border: none;
   color: #f4eeff;
   padding: 0.8rem 1rem;
@@ -69,10 +69,6 @@ export default {
   font-size: 16px;
   margin-top: 0.5rem;
   outline: none;
-}
-
-.btn:hover {
-  background-color: #424874;
   cursor: pointer;
 }
 
