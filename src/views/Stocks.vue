@@ -1,15 +1,30 @@
 <template>
-  <div>
-    <h1>Stocks</h1>
+  <div class="wrapper">
+    <Stock :key="stock.id" v-for="stock in stocks" :stock="stock"/>
   </div>
 </template>
 
 <script>
-export default {
+import Stock from '../components/stocks/Stock.vue'
+import { mapGetters } from 'vuex'
 
+export default {
+  computed: {
+    ...mapGetters([
+      'stocks'
+    ])
+  },
+  components: {
+    Stock
+  },
+  created () {
+    this.$store.dispatch('initStock')
+  }
 }
 </script>
 
-<style>
-
+<style scoped>
+.wrapper {
+  display: flex;
+}
 </style>
