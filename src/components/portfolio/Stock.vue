@@ -6,7 +6,7 @@
     </div>
     <div class="panel-body">
       <input class="number" type="number" name="Quantity" v-model="quantity">
-      <button class="btn" :disabled="insufficentAmount" @click="sellStock">Sell</button>
+      <button :class="{'btn-disable': insufficentAmount, 'btn': !insufficentAmount}" :disabled="insufficentAmount" @click="sellStock">Sell</button>
     </div>
   </div>
 </template>
@@ -27,11 +27,12 @@ export default {
         stockPrice: this.stock.price
       }
       this.$store.dispatch('sellStock', order)
+      this.quantity = 0
     }
   },
   computed: {
     insufficentAmount () {
-      return this.stock.quantity < this.quantity
+      return this.stock.quantity < this.quantity || !Number.isInteger(+this.quantity) || this.quantity <= 0
     }
   }
 }
@@ -73,6 +74,19 @@ export default {
 .btn:hover {
   background-color: #424874;
   cursor: pointer;
+}
+
+.btn-disable {
+  background-color: #a6b1e1;
+  border: none;
+  color: #f4eeff;
+  padding: 0.8rem 1rem;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin-top: 0.5rem;
+  outline: none;
 }
 
 .number {
