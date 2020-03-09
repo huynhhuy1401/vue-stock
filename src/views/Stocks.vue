@@ -26,6 +26,7 @@ export default {
 <style scoped>
 .wrapper {
   display: flex;
+  flex-wrap: wrap;
 }
 
 @media (max-width: 780px) {
