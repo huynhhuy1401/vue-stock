@@ -90,5 +90,8 @@ export default {
   padding: 0.8rem 1rem;
   display: block;
   width: 100%;
+  border-color: #a6b1e1;
+  font-size: 1rem;
 }
+
 </style>
