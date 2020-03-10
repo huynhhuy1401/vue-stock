@@ -12,17 +12,12 @@ export default new Vuex.Store({
       myAxios.get('/data.json')
         .then(response => {
           const data = response.data
-          let portfolio = {
+          const portfolio = {
             fund: data.fund,
-            stocks: []
-          }
-          if (data.stockPortfolio) {
-            portfolio = {
-              stocks: data.stockPortfolio,
-              fund: data.fund
-            }
+            stocks: data.stockPortfolio || []
           }
           const stocks = data.stocks
+
           commit('SET_PORTFOLIO', portfolio)
           commit('SET_STOCK', stocks)
         })

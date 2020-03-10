@@ -38,4 +38,52 @@ body {
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
 }
+
+.Stock-panel {
+  flex: 0 23%;
+  padding: 1rem;
+  margin: 2%;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  border-radius: 5px;
+}
+
+.Stock-panel-title {
+  color: #424874;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.Stock-title {
+  margin-bottom: 0.5rem;
+}
+
+.Stock-btn {
+  border: none;
+  color: #f4eeff;
+  padding: 0.8rem 1rem;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin-top: 0.5rem;
+  outline: none;
+  cursor: pointer;
+}
+
+.Stock-btn-active {
+  background-color: #424874;
+}
+
+.Stock-btn-disable {
+  background-color: #a6b1e1;
+}
+
+.Stock-number {
+  padding: 0.8rem 1rem;
+  display: block;
+  width: 100%;
+  border-color: #a6b1e1;
+  font-size: 1rem;
+}
+
 </style>
