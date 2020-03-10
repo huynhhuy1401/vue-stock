@@ -6,7 +6,7 @@
     </div>
     <div class="Stock-panel-body">
       <input class="Stock-number" type="number" name="Quantity" v-model="quantity">
-      <button class="Stock-btn" :class="{'Stock-btn-disable': insufficentAmount, 'Stock-btn': !insufficentAmount}" :disabled="insufficentAmount" @click="sellStock">Sell</button>
+      <button class="Stock-btn" :class="{'Stock-btn-disable': insufficentAmount, 'Stock-btn-active': !insufficentAmount}" :disabled="insufficentAmount" @click="sellStock">Sell</button>
     </div>
   </div>
 </template>
@@ -37,6 +37,3 @@ export default {
   }
 }
 </script>
-
-<style>
-</style>
