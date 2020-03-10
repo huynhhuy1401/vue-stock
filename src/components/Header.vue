@@ -13,7 +13,9 @@
     </ul>
 
     <div class="left">
-      <div @click="endDay" class="nav-item clickable">End day</div>
+      <div class="nav-item clickable" @click="saveData">Save Data</div>
+      <div class="nav-item clickable" @click="loadData">Load Data</div>
+      <div @click="endDay" class="nav-item clickable">End Day</div>
       <div class="nav-item">
         <p class="fund">Fund: {{ fund | currency }}</p>
       </div>
@@ -22,6 +24,8 @@
 </template>
 
 <script>
+import { myAxios } from '../main'
+
 export default {
   filters: {
     currency (value) {
@@ -36,6 +40,17 @@ export default {
   methods: {
     endDay () {
       this.$store.dispatch('randomStock')
+    },
+    loadData () {
+      this.$store.dispatch('loadData')
+    },
+    saveData () {
+      const data = {
+        stockPortfolio: this.$store.getters.stockPortfolio,
+        stocks: this.$store.getters.stocks,
+        fund: this.$store.getters.fund
+      }
+      myAxios.put('/data.json', data)
     }
   }
 }
@@ -88,7 +103,6 @@ export default {
 }
 
 .clickable:hover {
-  text-decoration: underline;
   cursor: pointer;
 }
 </style>
