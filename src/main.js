@@ -6,8 +6,14 @@ import axios from 'axios'
 
 Vue.config.productionTip = false
 
+export const API_KEY = 'AIzaSyC_xvX6BEoToLTa9ewO30SpkFzXLo2ig3k'
+
 export const myAxios = axios.create({
   baseURL: 'https://vue-http-4ac3c.firebaseio.com'
+})
+
+export const authAxios = axios.create({
+  baseURL: 'https://identitytoolkit.googleapis.com/v1'
 })
 
 new Vue({

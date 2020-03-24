@@ -4,28 +4,31 @@
       <router-link class="nav-list-item" tag="li" to="/" exact>
         <a class="nav-link">Home</a>
       </router-link>
-      <router-link class="nav-list-item" tag="li" to="/portfolio">
+      <router-link class="nav-list-item" tag="li" to="/portfolio" v-if="isAuthenticated">
         <a class="nav-link">Portfolio</a>
       </router-link>
-      <router-link class="nav-list-item" tag="li" to="/stocks">
+      <router-link class="nav-list-item" tag="li" to="/stocks" v-if="isAuthenticated">
         <a class="nav-link">Stocks</a>
       </router-link>
     </ul>
 
-    <div class="left">
-      <div class="nav-item clickable" @click="saveData">Save Data</div>
-      <div class="nav-item clickable" @click="loadData">Load Data</div>
-      <div @click="endDay" class="nav-item clickable">End Day</div>
-      <div class="nav-item">
+    <div class="left" >
+      <div @click="endDay" class="nav-item clickable" v-if="isAuthenticated">End Day</div>
+      <div class="nav-item" v-if="isAuthenticated">
         <p class="fund">Fund: {{ fund | currency }}</p>
       </div>
+      <div @click="logOut" class="nav-item clickable" v-if="isAuthenticated">Log out</div>
+      <router-link class="nav-list-item" tag="li" to="/signup" v-if="!isAuthenticated">
+        <a class="nav-link">Sign up</a>
+      </router-link>
+      <router-link class="nav-list-item" tag="li" to="/signin" v-if="!isAuthenticated">
+        <a class="nav-link">Sign in</a>
+      </router-link>
     </div>
   </nav>
 </template>
 
 <script>
-import { myAxios } from '../main'
-
 export default {
   filters: {
     currency (value) {
@@ -35,22 +38,17 @@ export default {
   computed: {
     fund () {
       return this.$store.getters.fund
+    },
+    isAuthenticated () {
+      return this.$store.getters.isAuthenticated
     }
   },
   methods: {
     endDay () {
       this.$store.dispatch('randomStock')
     },
-    loadData () {
-      this.$store.dispatch('loadData')
-    },
-    saveData () {
-      const data = {
-        stockPortfolio: this.$store.getters.stockPortfolio,
-        stocks: this.$store.getters.stocks,
-        fund: this.$store.getters.fund
-      }
-      myAxios.put('/data.json', data)
+    logOut () {
+      this.$store.dispatch('logOut')
     }
   }
 }
