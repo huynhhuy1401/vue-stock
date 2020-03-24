@@ -23,7 +23,7 @@ export default {
   },
   actions: {
     addUser ({ getters, state }, newUser) {
-      myAxios.put(`/users/${state.userId}.json`, {
+      myAxios.put(`/users/${state.userId}.json?auth=${state.idToken}`, {
         email: newUser.userEmail,
         fund: getters.fund
       })
@@ -100,7 +100,7 @@ export default {
       router.replace('/signin')
     },
     saveData ({ state, getters }) {
-      myAxios.patch(`/users/${state.userId}.json`, {
+      myAxios.patch(`/users/${state.userId}.json?auth=${state.idToken}`, {
         fund: getters.fund,
         portfolio: getters.stockPortfolio,
         stocks: getters.stocks
@@ -108,7 +108,7 @@ export default {
     },
     fetchData ({ commit, getters, state }) {
       if (getters.isAuthenticated) {
-        myAxios.get(`/users/${state.userId}.json`)
+        myAxios.get(`/users/${state.userId}.json?auth=${state.idToken}`)
           .then(res => {
             commit('SET_PORTFOLIO', {
               stocks: res.data.portfolio || [],
