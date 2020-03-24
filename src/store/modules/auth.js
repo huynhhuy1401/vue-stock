@@ -39,7 +39,7 @@ export default {
     addUser ({ getters, state }, newUser) {
       myAxios.put(`/users/${state.userId}.json?auth=${state.idToken}`, {
         email: newUser.userEmail,
-        fund: getters.fund
+        fund: 10000
       })
     },
     setLogoutTime ({ commit }, time) {
