@@ -21,6 +21,11 @@
           <small class="input-warning">Password does not match</small>
         </div>
       </transition>
+      <transition name="fade">
+        <div class="form-warning" v-if="isRegisterFailed">
+          <small class="input-warning">Username existed!</small>
+        </div>
+      </transition>
       <button class="Stock-btn Stock-btn-active form-btn">Register</button>
     </form>
   </div>
@@ -35,6 +40,11 @@ export default {
       password: '',
       confirmation: '',
       pwMatch: true
+    }
+  },
+  computed: {
+    isRegisterFailed () {
+      return this.$store.getters.isRegisterFailed
     }
   },
   methods: {

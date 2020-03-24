@@ -12,6 +12,11 @@
         <label for="password" class="form-label">Password</label>
         <input type="password" id="password" class="input" v-model="password" />
       </div>
+      <transition name="fade">
+        <div class="form-warning" v-if="isLoginFailed">
+          <small class="input-warning">Username or password is not correct</small>
+        </div>
+      </transition>
       <button class="Stock-btn Stock-btn-active form-btn">Sign in</button>
     </form>
   </div>
@@ -23,6 +28,11 @@ export default {
     return {
       email: '',
       password: ''
+    }
+  },
+  computed: {
+    isLoginFailed () {
+      return this.$store.getters.isLoginFailed
     }
   },
   methods: {

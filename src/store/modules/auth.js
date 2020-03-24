@@ -4,11 +4,19 @@ import router from '../../router'
 export default {
   state: {
     userId: null,
-    idToken: null
+    idToken: null,
+    isLoginFailed: false,
+    isRegisterFailed: false
   },
   getters: {
     isAuthenticated (state) {
       return state.idToken != null
+    },
+    isLoginFailed (state) {
+      return state.isLoginFailed
+    },
+    isRegisterFailed (state) {
+      return state.isRegisterFailed
     }
   },
   mutations: {
@@ -33,7 +41,7 @@ export default {
         commit('clearAuthData')
       }, time * 1000)
     },
-    signUp ({ commit, dispatch }, user) {
+    signUp ({ commit, dispatch, state }, user) {
       authAxios.post(
         '/accounts:signUp?key=' + API_KEY,
         {
@@ -63,8 +71,11 @@ export default {
           dispatch('setLogoutTime', res.data.expiresIn)
           router.push('/')
         })
+        .catch(() => {
+          state.isRegisterFailed = true
+        })
     },
-    signIn ({ commit, dispatch }, user) {
+    signIn ({ commit, dispatch, state }, user) {
       authAxios.post(
         '/accounts:signInWithPassword?key=' + API_KEY,
         {
@@ -90,6 +101,9 @@ export default {
           dispatch('setLogoutTime', res.data.expiresIn)
           dispatch('fetchData')
           router.push('/')
+        })
+        .catch(() => {
+          state.isLoginFailed = true
         })
     },
     logOut ({ commit }) {
