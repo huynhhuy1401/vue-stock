@@ -1,4 +1,4 @@
-import { authAxios, API_KEY } from '../../main'
+import { authAxios, API_KEY, myAxios } from '../../main'
 import router from '../../router'
 
 export default {
@@ -22,6 +22,12 @@ export default {
     }
   },
   actions: {
+    addUser ({ getters, state }, newUser) {
+      myAxios.put(`/users/${state.userId}.json`, {
+        email: newUser.userEmail,
+        fund: getters.fund
+      })
+    },
     setLogoutTime ({ commit }, time) {
       setTimeout(() => {
         commit('clearAuthData')
@@ -40,18 +46,22 @@ export default {
           }
         })
         .then(res => {
-          console.log(res)
           const authInfo = {
             userId: res.data.localId,
             idToken: res.data.idToken
           }
+          const newUser = {
+            userEmail: res.data.email
+          }
           commit('authUser', authInfo)
+          dispatch('addUser', newUser)
           const now = new Date()
           const expirationDate = new Date(now.getTime() + res.data.expiresIn * 1000)
           localStorage.setItem('expirationDate', expirationDate)
           localStorage.setItem('token', res.data.idToken)
           localStorage.setItem('userId', res.data.localId)
           dispatch('setLogoutTime', res.data.expiresIn)
+          router.push('/')
         })
     },
     signIn ({ commit, dispatch }, user) {
@@ -78,6 +88,7 @@ export default {
           localStorage.setItem('token', res.data.idToken)
           localStorage.setItem('userId', res.data.localId)
           dispatch('setLogoutTime', res.data.expiresIn)
+          dispatch('fetchData')
           router.push('/')
         })
     },
@@ -87,6 +98,25 @@ export default {
       localStorage.removeItem('token')
       localStorage.removeItem('userId')
       router.replace('/signin')
+    },
+    saveData ({ state, getters }) {
+      myAxios.patch(`/users/${state.userId}.json`, {
+        fund: getters.fund,
+        portfolio: getters.stockPortfolio,
+        stocks: getters.stocks
+      })
+    },
+    fetchData ({ commit, getters, state }) {
+      if (getters.isAuthenticated) {
+        myAxios.get(`/users/${state.userId}.json`)
+          .then(res => {
+            commit('SET_PORTFOLIO', {
+              stocks: res.data.portfolio || [],
+              fund: res.data.fund
+            })
+            commit('SET_STOCK', res.data.stocks)
+          })
+      }
     }
   }
 }

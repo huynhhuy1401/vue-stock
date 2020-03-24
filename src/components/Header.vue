@@ -29,6 +29,7 @@
 </template>
 
 <script>
+
 export default {
   filters: {
     currency (value) {

@@ -6,10 +6,10 @@ import axios from 'axios'
 
 Vue.config.productionTip = false
 
-export const API_KEY = 'AIzaSyC_xvX6BEoToLTa9ewO30SpkFzXLo2ig3k'
+export const API_KEY = '' // Firebase API key
 
 export const myAxios = axios.create({
-  baseURL: 'https://vue-http-4ac3c.firebaseio.com'
+  baseURL: '' // Firebase API DB url
 })
 
 export const authAxios = axios.create({

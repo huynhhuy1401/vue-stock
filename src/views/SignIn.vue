@@ -2,7 +2,7 @@
   <div class="sign-in">
     <form class="form" @submit.prevent="onSubmit">
       <div class="form-title">
-        <h2>Login</h2>
+        <h2>Sign in</h2>
       </div>
       <div class="form-group">
         <label for="email" class="form-label">Email</label>
@@ -12,7 +12,7 @@
         <label for="password" class="form-label">Password</label>
         <input type="password" id="password" class="input" v-model="password" />
       </div>
-      <button class="Stock-btn Stock-btn-active form-btn">Login</button>
+      <button class="Stock-btn Stock-btn-active form-btn">Sign in</button>
     </form>
   </div>
 </template>

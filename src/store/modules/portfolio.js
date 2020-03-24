@@ -47,8 +47,9 @@ export default {
     }
   },
   actions: {
-    sellStock ({ commit }, order) {
+    sellStock ({ commit, dispatch }, order) {
       commit('SELL_STOCK', order)
+      dispatch('saveData')
     }
   }
 }

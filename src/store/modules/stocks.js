@@ -20,14 +20,16 @@ export default {
     }
   },
   actions: {
-    buyStock ({ commit }, order) {
+    buyStock ({ commit, dispatch }, order) {
       commit('BUY_STOCK', order)
+      dispatch('saveData')
     },
     initStock ({ commit }) {
       commit('SET_STOCK', stocks)
     },
-    randomStock ({ commit }) {
+    randomStock ({ commit, dispatch }) {
       commit('RND_STOCK')
+      dispatch('saveData')
     }
   }
 }
