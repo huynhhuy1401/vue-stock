@@ -43,6 +43,9 @@ export default {
       }
       this.$store.dispatch('signIn', user)
     }
+  },
+  created () {
+    this.$store.commit('resetLoginState')
   }
 }
 </script>

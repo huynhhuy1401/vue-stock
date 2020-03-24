@@ -27,6 +27,12 @@ export default {
     clearAuthData (state) {
       state.idToken = null
       state.userId = null
+    },
+    resetLoginState (state) {
+      state.isLoginFailed = false
+    },
+    resetRegisterState (state) {
+      state.isRegisterFailed = false
     }
   },
   actions: {
@@ -100,6 +106,7 @@ export default {
           localStorage.setItem('userId', res.data.localId)
           dispatch('setLogoutTime', res.data.expiresIn)
           dispatch('fetchData')
+          state.isLoginFailed = false
           router.push('/')
         })
         .catch(() => {

@@ -59,6 +59,9 @@ export default {
         this.$store.dispatch('signUp', user)
       }
     }
+  },
+  created () {
+    this.$store.commit('resetRegisterState')
   }
 }
 </script>
