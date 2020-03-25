@@ -111,6 +111,9 @@ export default {
           dispatch('fetchData')
           state.isLoginFailed = false
         })
+        .then(() => {
+          router.push('/')
+        })
         .catch(() => {
           state.isLoginFailed = true
         })
