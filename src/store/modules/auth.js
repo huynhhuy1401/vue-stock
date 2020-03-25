@@ -74,6 +74,7 @@ export default {
           localStorage.setItem('expirationDate', expirationDate)
           localStorage.setItem('token', res.data.idToken)
           localStorage.setItem('userId', res.data.localId)
+          dispatch('fetchData')
           dispatch('setLogoutTime', res.data.expiresIn)
           router.push('/')
         })
