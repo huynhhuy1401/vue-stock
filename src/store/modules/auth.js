@@ -136,7 +136,6 @@ export default {
       if (getters.isAuthenticated) {
         myAxios.get(`/users/${state.userId}.json?auth=${state.idToken}`)
           .then(res => {
-            console.log(res)
             commit('SET_PORTFOLIO', {
               stocks: res.data.portfolio || [],
               fund: res.data.fund
