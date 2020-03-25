@@ -23,7 +23,7 @@
       </transition>
       <transition name="fade">
         <div class="form-warning" v-if="isRegisterFailed">
-          <small class="input-warning">Username existed!</small>
+          <small class="input-warning">Sign up failed!</small>
         </div>
       </transition>
       <button class="Stock-btn Stock-btn-active form-btn">Register</button>
