@@ -36,10 +36,14 @@ export default {
     }
   },
   actions: {
-    addUser ({ getters, state }, newUser) {
+    addUser ({ getters, state, dispatch }, newUser) {
       myAxios.put(`/users/${state.userId}.json?auth=${state.idToken}`, {
         email: newUser.userEmail,
         fund: 10000
+      }).then(() => {
+        dispatch('fetchData')
+      }).then(() => {
+        router.push('/')
       })
     },
     setLogoutTime ({ commit }, time) {
@@ -68,15 +72,13 @@ export default {
             userEmail: res.data.email
           }
           commit('authUser', authInfo)
-          dispatch('addUser', newUser)
           const now = new Date()
           const expirationDate = new Date(now.getTime() + res.data.expiresIn * 1000)
           localStorage.setItem('expirationDate', expirationDate)
           localStorage.setItem('token', res.data.idToken)
           localStorage.setItem('userId', res.data.localId)
-          dispatch('fetchData')
           dispatch('setLogoutTime', res.data.expiresIn)
-          router.push('/')
+          dispatch('addUser', newUser)
         })
         .catch(() => {
           state.isRegisterFailed = true
@@ -108,7 +110,6 @@ export default {
           dispatch('setLogoutTime', res.data.expiresIn)
           dispatch('fetchData')
           state.isLoginFailed = false
-          router.push('/')
         })
         .catch(() => {
           state.isLoginFailed = true
@@ -132,6 +133,7 @@ export default {
       if (getters.isAuthenticated) {
         myAxios.get(`/users/${state.userId}.json?auth=${state.idToken}`)
           .then(res => {
+            console.log(res)
             commit('SET_PORTFOLIO', {
               stocks: res.data.portfolio || [],
               fund: res.data.fund
