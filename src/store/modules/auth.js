@@ -1,5 +1,5 @@
 import stocks from '../../data/stocks'
-import { authAxios, myAxios, API_KEY } from '../../main'
+import { authAxios, myAxios } from '../../main'
 import router from '../../router'
 
 export default {
@@ -83,7 +83,7 @@ export default {
     },
     signUp ({ commit, dispatch, state }, user) {
       authAxios.post(
-        '/accounts:signUp?key=' + API_KEY,
+        '/accounts:signUp?key=' + process.env.VUE_APP_API_KEY,
         {
           ...user,
           returnSecureToken: true
@@ -113,8 +113,9 @@ export default {
         })
     },
     signIn ({ commit, dispatch, state }, user) {
+      console.log(process.env)
       authAxios.post(
-        '/accounts:signInWithPassword?key=' + API_KEY,
+        '/accounts:signInWithPassword?key=' + process.env.VUE_APP_API_KEY,
         {
           ...user,
           returnSecureToken: true
