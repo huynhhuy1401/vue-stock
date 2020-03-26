@@ -1,5 +1,5 @@
 import stocks from '../../data/stocks'
-import { authAxios, API_KEY, myAxios } from '../../main'
+import { authAxios, myAxios, API_KEY } from '../../main'
 import router from '../../router'
 
 export default {
@@ -18,12 +18,6 @@ export default {
     },
     isRegisterFailed (state) {
       return state.isRegisterFailed
-    },
-    userId (state) {
-      return state.userId
-    },
-    idToken (state) {
-      return state.idToken
     }
   },
   mutations: {
@@ -54,6 +48,17 @@ export default {
         router.push('/')
       })
     },
+    saveUserPortfolioData ({ state, getters }) {
+      myAxios.patch(`/users/${state.userId}.json?auth=${state.idToken}`, {
+        fund: getters.fund,
+        portforlio: getters.stockPortfolio
+      })
+    },
+    saveUserStocksData ({ state, getters }) {
+      myAxios.patch(`/users/${state.userId}.json?auth=${state.idToken}`, {
+        stocks: getters.stocks
+      })
+    },
     fetchData ({ commit, getters, state }) {
       if (getters.isAuthenticated) {
         myAxios.get(`/users/${state.userId}.json?auth=${state.idToken}`)
@@ -65,6 +70,11 @@ export default {
             commit('SET_STOCK', res.data.stocks)
           })
       }
+    },
+    setLocalAuthData (context, { expirationDate, userId, idToken }) {
+      localStorage.setItem('expirationDate', expirationDate)
+      localStorage.setItem('token', idToken)
+      localStorage.setItem('userId', userId)
     },
     setLogoutTime ({ commit }, time) {
       setTimeout(() => {
@@ -94,9 +104,7 @@ export default {
           commit('authUser', authInfo)
           const now = new Date()
           const expirationDate = new Date(now.getTime() + res.data.expiresIn * 1000)
-          localStorage.setItem('expirationDate', expirationDate)
-          localStorage.setItem('token', res.data.idToken)
-          localStorage.setItem('userId', res.data.localId)
+          dispatch('setLocalAuthData', { expirationDate, userId: res.data.localId, idToken: res.data.idToken })
           dispatch('setLogoutTime', res.data.expiresIn)
           dispatch('addUser', newUser)
         })
@@ -124,9 +132,7 @@ export default {
           commit('authUser', authInfo)
           const now = new Date()
           const expirationDate = new Date(now.getTime() + res.data.expiresIn * 1000)
-          localStorage.setItem('expirationDate', expirationDate)
-          localStorage.setItem('token', res.data.idToken)
-          localStorage.setItem('userId', res.data.localId)
+          dispatch('setLocalAuthData', { expirationDate, userId: res.data.localId, idToken: res.data.idToken })
           dispatch('setLogoutTime', res.data.expiresIn)
           dispatch('fetchData')
           state.isLoginFailed = false

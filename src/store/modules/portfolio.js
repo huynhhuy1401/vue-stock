@@ -1,5 +1,3 @@
-import { myAxios } from '../../main'
-
 export default {
   state: {
     fund: 10000,
@@ -49,12 +47,9 @@ export default {
     }
   },
   actions: {
-    sellStock ({ commit, getters }, order) {
+    sellStock ({ commit, dispatch }, order) {
       commit('SELL_STOCK', order)
-      myAxios.patch(`/users/${getters.userId}.json?auth=${getters.idToken}`, {
-        fund: getters.fund,
-        portforlio: getters.stockPortfolio
-      })
+      dispatch('saveUserPortfolioData')
     }
   }
 }
