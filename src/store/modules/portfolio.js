@@ -49,9 +49,9 @@ export default {
     }
   },
   actions: {
-    sellStock ({ commit, state, getters }, order) {
+    sellStock ({ commit, getters }, order) {
       commit('SELL_STOCK', order)
-      myAxios.patch(`/users/${state.userId}.json?auth=${state.idToken}`, {
+      myAxios.patch(`/users/${getters.userId}.json?auth=${getters.idToken}`, {
         fund: getters.fund,
         portforlio: getters.stockPortfolio
       })
