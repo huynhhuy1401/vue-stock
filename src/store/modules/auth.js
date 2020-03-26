@@ -113,7 +113,6 @@ export default {
         })
     },
     signIn ({ commit, dispatch, state }, user) {
-      console.log(process.env)
       authAxios.post(
         '/accounts:signInWithPassword?key=' + process.env.VUE_APP_API_KEY,
         {
