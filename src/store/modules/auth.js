@@ -1,3 +1,4 @@
+import stocks from '../../data/stocks'
 import { authAxios, API_KEY, myAxios } from '../../main'
 import router from '../../router'
 
@@ -39,7 +40,8 @@ export default {
     addUser ({ getters, state, dispatch }, newUser) {
       myAxios.put(`/users/${state.userId}.json?auth=${state.idToken}`, {
         email: newUser.userEmail,
-        fund: 10000
+        fund: 10000,
+        stocks: stocks
       }).then(() => {
         dispatch('fetchData')
       }).then(() => {
