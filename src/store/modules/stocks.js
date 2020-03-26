@@ -1,4 +1,4 @@
-import stocks from '../../data/stocks'
+import { myAxios } from '../../main'
 
 export default {
   state: {
@@ -20,16 +20,18 @@ export default {
     }
   },
   actions: {
-    buyStock ({ commit, dispatch }, order) {
+    buyStock ({ commit, getters }, order) {
       commit('BUY_STOCK', order)
-      dispatch('saveData')
+      myAxios.patch(`/users/${getters.userId}.json?auth=${getters.idToken}`, {
+        fund: getters.fund,
+        portforlio: getters.stockPortfolio
+      })
     },
-    initStock ({ commit }) {
-      commit('SET_STOCK', stocks)
-    },
-    randomStock ({ commit, dispatch }) {
+    randomStock ({ commit, getters }) {
       commit('RND_STOCK')
-      dispatch('saveData')
+      myAxios.patch(`/users/${getters.userId}.json?auth=${getters.idToken}`, {
+        stocks: getters.stocks
+      })
     }
   }
 }

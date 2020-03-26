@@ -16,9 +16,6 @@ export default {
   },
   components: {
     Stock
-  },
-  created () {
-    this.$store.dispatch('initStock')
   }
 }
 </script>

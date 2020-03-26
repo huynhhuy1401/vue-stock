@@ -1,3 +1,4 @@
+import stocks from '../../data/stocks'
 import { authAxios, API_KEY, myAxios } from '../../main'
 import router from '../../router'
 
@@ -17,6 +18,12 @@ export default {
     },
     isRegisterFailed (state) {
       return state.isRegisterFailed
+    },
+    userId (state) {
+      return state.userId
+    },
+    idToken (state) {
+      return state.idToken
     }
   },
   mutations: {
@@ -39,12 +46,25 @@ export default {
     addUser ({ getters, state, dispatch }, newUser) {
       myAxios.put(`/users/${state.userId}.json?auth=${state.idToken}`, {
         email: newUser.userEmail,
-        fund: 10000
+        fund: 10000,
+        stocks: stocks
       }).then(() => {
         dispatch('fetchData')
       }).then(() => {
         router.push('/')
       })
+    },
+    fetchData ({ commit, getters, state }) {
+      if (getters.isAuthenticated) {
+        myAxios.get(`/users/${state.userId}.json?auth=${state.idToken}`)
+          .then(res => {
+            commit('SET_PORTFOLIO', {
+              stocks: res.data.portfolio || [],
+              fund: res.data.fund
+            })
+            commit('SET_STOCK', res.data.stocks)
+          })
+      }
     },
     setLogoutTime ({ commit }, time) {
       setTimeout(() => {
@@ -124,25 +144,6 @@ export default {
       localStorage.removeItem('token')
       localStorage.removeItem('userId')
       router.replace('/signin')
-    },
-    saveData ({ state, getters }) {
-      myAxios.patch(`/users/${state.userId}.json?auth=${state.idToken}`, {
-        fund: getters.fund,
-        portfolio: getters.stockPortfolio,
-        stocks: getters.stocks
-      })
-    },
-    fetchData ({ commit, getters, state }) {
-      if (getters.isAuthenticated) {
-        myAxios.get(`/users/${state.userId}.json?auth=${state.idToken}`)
-          .then(res => {
-            commit('SET_PORTFOLIO', {
-              stocks: res.data.portfolio || [],
-              fund: res.data.fund
-            })
-            commit('SET_STOCK', res.data.stocks)
-          })
-      }
     }
   }
 }
